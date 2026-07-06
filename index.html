@@ -88,38 +88,71 @@
         }
 
         .order-form .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .order-form label {
             display: block;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 8px;
-            font-size: 0.95em;
+            margin-bottom: 6px;
+            font-size: 0.9em;
         }
 
-        .order-form input {
+        .order-form label .required {
+            color: #f5576c;
+            margin-left: 2px;
+        }
+
+        .order-form input,
+        .order-form select {
             width: 100%;
-            padding: 16px 20px;
+            padding: 15px 18px;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
+            border-radius: 16px;
             font-size: 1em;
             background: rgba(255, 255, 255, 0.06);
             color: white;
             transition: all 0.3s;
+            appearance: none;
+            -webkit-appearance: none;
         }
 
         .order-form input::placeholder {
             color: rgba(255, 255, 255, 0.3);
         }
 
-        .order-form input:focus {
+        .order-form select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .order-form input:focus,
+        .order-form select:focus {
             outline: none;
             border-color: #f5576c;
             background: rgba(255, 255, 255, 0.12);
             box-shadow: 0 0 0 6px rgba(245, 87, 108, 0.15);
-            transform: scale(1.02);
+            transform: scale(1.01);
+        }
+
+        .order-form .phone-wrapper {
+            position: relative;
+        }
+
+        .order-form .phone-wrapper .phone-prefix {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            font-size: 1em;
+            pointer-events: none;
+        }
+
+        .order-form .phone-wrapper input {
+            padding-left: 45px;
         }
 
         .btn-primary {
@@ -134,6 +167,7 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 8px 30px rgba(245, 87, 108, 0.35);
+            margin-top: 4px;
         }
 
         .btn-primary:active {
@@ -157,6 +191,7 @@
             font-weight: 600;
             margin-top: 12px;
             border: 2px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
         }
 
         .btn-secondary:active {
@@ -182,9 +217,10 @@
         }
 
         .actions {
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
         .modal {
             display: none;
             position: fixed;
@@ -316,6 +352,7 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* ===== СТИЛИ ДЛЯ ЗАКАЗОВ ===== */
         .orders-header {
             display: flex;
             justify-content: space-between;
@@ -336,6 +373,7 @@
             padding: 8px 16px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
         }
 
         #countBadge {
@@ -415,6 +453,13 @@
             font-weight: 600;
         }
 
+        .order-card .address {
+            color: #ffc107;
+            font-weight: 500;
+            font-size: 0.9em;
+            margin: 4px 0;
+        }
+
         .order-card .status {
             display: inline-block;
             padding: 4px 14px;
@@ -481,6 +526,11 @@
             margin-top: 4px;
         }
 
+        .order-house {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85em;
+        }
+
         @media (max-width: 480px) {
             .app { padding: 25px 18px; border-radius: 30px; }
             header h1 { font-size: 2em; }
@@ -502,21 +552,44 @@
 
         <main>
             <form id="orderForm" class="order-form">
+                <!-- Телефон -->
                 <div class="form-group">
-                    <label>☎️ Номер телефона</label>
-                    <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
+                    <label>☎️ Номер телефона <span class="required">*</span></label>
+                    <div class="phone-wrapper">
+                        <span class="phone-prefix">+7</span>
+                        <input type="tel" id="phone" placeholder="(___) ___-__-__" required maxlength="12">
+                    </div>
                 </div>
 
+                <!-- Имя -->
                 <div class="form-group">
-                    <label>👤 Имя клиента</label>
+                    <label>👤 Имя клиента <span class="required">*</span></label>
                     <input type="text" id="name" placeholder="Введите имя" required>
                 </div>
 
+                <!-- Товар -->
                 <div class="form-group">
-                    <label>📦 Товар / Вкус</label>
+                    <label>📦 Товар / Вкус <span class="required">*</span></label>
                     <input type="text" id="product" placeholder="Напишите товар вручную" required>
                 </div>
 
+                <!-- Адрес -->
+                <div class="form-group">
+                    <label>📍 Адрес доставки <span class="required">*</span></label>
+                    <select id="address" required>
+                        <option value="">Выберите адрес</option>
+                        <option value="Бирюкова, 4А">📍 Бирюкова, 4А</option>
+                        <option value="Совхозная, 69">📍 Совхозная, 69</option>
+                    </select>
+                </div>
+
+                <!-- Номер дома/квартиры -->
+                <div class="form-group">
+                    <label>🏠 Номер дома / квартиры</label>
+                    <input type="text" id="house" placeholder="Например: 45, 12, 7А">
+                </div>
+
+                <!-- Комментарий -->
                 <div class="form-group">
                     <label>✏️ Комментарий</label>
                     <input type="text" id="comment" placeholder="Дополнительная информация">
@@ -532,6 +605,7 @@
         </main>
     </div>
 
+    <!-- Модалка -->
     <div id="callModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -550,7 +624,7 @@
 
     <script>
         // ════════════════════════════════════════════════════════════
-        // 🔑 НОВЫЕ ДАННЫЕ ИЗ SUPABASE
+        // 🔑 ТВОИ ДАННЫЕ ИЗ SUPABASE
         // ════════════════════════════════════════════════════════════
         const SUPABASE_URL = 'https://asvqxyxsvzdffjvcjctm.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzdnF4eXhzdnpkZmZqdmNqY3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzc5ODcsImV4cCI6MjA5ODkxMzk4N30.G_9DIpN3bRcsbq_d5CVdC2lVGj4wKsPcxeB_7J5A6kc';
@@ -559,6 +633,41 @@
         let allOrders = [];
         let currentFilter = 'all';
 
+        // ===== АВТОМАТИЧЕСКИЙ +7 В ТЕЛЕФОНЕ =====
+        document.getElementById('phone').addEventListener('focus', function() {
+            if (this.value === '') {
+                this.value = '';
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function() {
+            // Удаляем всё кроме цифр
+            let cleaned = this.value.replace(/\D/g, '');
+            
+            // Ограничиваем 10 цифрами (после +7)
+            if (cleaned.length > 10) {
+                cleaned = cleaned.slice(0, 10);
+            }
+            
+            // Форматируем: (999) 999-99-99
+            let formatted = '';
+            if (cleaned.length > 0) {
+                formatted += '(' + cleaned.slice(0, 3);
+            }
+            if (cleaned.length > 3) {
+                formatted += ') ' + cleaned.slice(3, 6);
+            }
+            if (cleaned.length > 6) {
+                formatted += '-' + cleaned.slice(6, 8);
+            }
+            if (cleaned.length > 8) {
+                formatted += '-' + cleaned.slice(8, 10);
+            }
+            
+            this.value = formatted;
+        });
+
+        // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -590,6 +699,7 @@
             return map[status] || 'status-pending';
         }
 
+        // ===== РАБОТА С SUPABASE =====
         async function supabaseRequest(method, table, data = null, id = null) {
             let url = `${SUPABASE_URL}/rest/v1/${table}`;
             if (id) url += `?id=eq.${id}`;
@@ -620,6 +730,7 @@
             }
         }
 
+        // ===== ЗАГРУЗКА ЗАКАЗОВ =====
         async function loadOrdersFromCloud() {
             try {
                 const statusEl = document.getElementById('syncStatus');
@@ -650,17 +761,36 @@
             }
         }
 
+        // ===== СОЗДАНИЕ ЗАКАЗА =====
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const phone = document.getElementById('phone').value.trim();
+            const phoneRaw = document.getElementById('phone').value.trim();
+            const phone = '+7' + phoneRaw.replace(/\D/g, '');
             const name = document.getElementById('name').value.trim();
             const product = document.getElementById('product').value.trim();
+            const address = document.getElementById('address').value;
+            const house = document.getElementById('house').value.trim();
             const comment = document.getElementById('comment').value.trim();
             
-            if (!phone || !name || !product) {
-                showToast('⚠️ Заполните телефон, имя и товар!', true);
+            if (!phone || phone === '+7') {
+                showToast('⚠️ Введите номер телефона!', true);
+                return;
+            }
+
+            if (!name) {
+                showToast('⚠️ Введите имя клиента!', true);
+                return;
+            }
+
+            if (!product) {
+                showToast('⚠️ Введите товар!', true);
+                return;
+            }
+
+            if (!address) {
+                showToast('⚠️ Выберите адрес доставки!', true);
                 return;
             }
 
@@ -673,6 +803,8 @@
                     phone: phone,
                     name: name,
                     product: product,
+                    address: address,
+                    house: house || '',
                     comment: comment || '',
                     status: 'pending',
                     created_at: new Date().toISOString()
@@ -691,6 +823,7 @@
             btn.textContent = '📦 Оформить заказ';
         });
 
+        // ===== СТРАНИЦА ЗАКАЗОВ =====
         function goToOrders() {
             const app = document.getElementById('app');
             app.innerHTML = `
@@ -733,6 +866,7 @@
             location.reload();
         }
 
+        // ===== ОТРИСОВКА ЗАКАЗОВ =====
         function renderOrders(filter = 'all') {
             const list = document.getElementById('ordersList');
             if (!list) return;
@@ -776,6 +910,8 @@
                     <div class="order-card status-${order.status}">
                         <div class="phone">📞 ${order.phone}</div>
                         <div class="name">👤 ${order.name}</div>
+                        <div class="address">📍 ${order.address}</div>
+                        ${order.house ? `<div class="order-house">🏠 ${order.house}</div>` : ''}
                         <div class="product">📦 ${order.product}</div>
                         ${order.comment ? `<div class="order-comment">📝 ${order.comment}</div>` : ''}
                         <div class="order-date">🕐 ${date}</div>
@@ -795,6 +931,7 @@
             }).join('');
         }
 
+        // ===== ОБНОВЛЕНИЕ СТАТУСА =====
         async function updateOrder(id, newStatus) {
             try {
                 await supabaseRequest('PATCH', 'orders', { status: newStatus }, id);
@@ -806,6 +943,7 @@
             }
         }
 
+        // ===== ОТМЕНА =====
         async function cancelOrder(id) {
             if (!confirm('❌ Отменить заказ?')) return;
             try {
@@ -818,6 +956,7 @@
             }
         }
 
+        // ===== УДАЛЕНИЕ =====
         async function deleteOrder(id) {
             if (!confirm('🗑️ Удалить заказ навсегда?')) return;
             try {
@@ -830,6 +969,7 @@
             }
         }
 
+        // ===== МОДАЛКА =====
         function openCallScript() {
             document.getElementById('callModal').style.display = 'block';
         }
