@@ -220,7 +220,6 @@
             margin-top: 20px;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ===== */
         .modal {
             display: none;
             position: fixed;
@@ -352,7 +351,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ===== СТИЛИ ДЛЯ ЗАКАЗОВ ===== */
         .orders-header {
             display: flex;
             justify-content: space-between;
@@ -526,11 +524,6 @@
             margin-top: 4px;
         }
 
-        .order-house {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85em;
-        }
-
         @media (max-width: 480px) {
             .app { padding: 25px 18px; border-radius: 30px; }
             header h1 { font-size: 2em; }
@@ -557,7 +550,7 @@
                     <label>☎️ Номер телефона <span class="required">*</span></label>
                     <div class="phone-wrapper">
                         <span class="phone-prefix">+7</span>
-                        <input type="tel" id="phone" placeholder="(___) ___-__-__" required maxlength="12">
+                        <input type="tel" id="phone" placeholder="(___) ___-__-__" required>
                     </div>
                 </div>
 
@@ -583,12 +576,6 @@
                     </select>
                 </div>
 
-                <!-- Номер дома/квартиры -->
-                <div class="form-group">
-                    <label>🏠 Номер дома / квартиры</label>
-                    <input type="text" id="house" placeholder="Например: 45, 12, 7А">
-                </div>
-
                 <!-- Комментарий -->
                 <div class="form-group">
                     <label>✏️ Комментарий</label>
@@ -605,7 +592,6 @@
         </main>
     </div>
 
-    <!-- Модалка -->
     <div id="callModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -633,14 +619,10 @@
         let allOrders = [];
         let currentFilter = 'all';
 
-        // ===== АВТОМАТИЧЕСКИЙ +7 В ТЕЛЕФОНЕ =====
-        document.getElementById('phone').addEventListener('focus', function() {
-            if (this.value === '') {
-                this.value = '';
-            }
-        });
+        // ===== АВТОМАТИЧЕСКИЙ +7 И ФОРМАТИРОВАНИЕ ТЕЛЕФОНА =====
+        const phoneInput = document.getElementById('phone');
 
-        document.getElementById('phone').addEventListener('input', function() {
+        phoneInput.addEventListener('input', function() {
             // Удаляем всё кроме цифр
             let cleaned = this.value.replace(/\D/g, '');
             
@@ -771,7 +753,6 @@
             const name = document.getElementById('name').value.trim();
             const product = document.getElementById('product').value.trim();
             const address = document.getElementById('address').value;
-            const house = document.getElementById('house').value.trim();
             const comment = document.getElementById('comment').value.trim();
             
             if (!phone || phone === '+7') {
@@ -804,7 +785,6 @@
                     name: name,
                     product: product,
                     address: address,
-                    house: house || '',
                     comment: comment || '',
                     status: 'pending',
                     created_at: new Date().toISOString()
@@ -911,7 +891,6 @@
                         <div class="phone">📞 ${order.phone}</div>
                         <div class="name">👤 ${order.name}</div>
                         <div class="address">📍 ${order.address}</div>
-                        ${order.house ? `<div class="order-house">🏠 ${order.house}</div>` : ''}
                         <div class="product">📦 ${order.product}</div>
                         ${order.comment ? `<div class="order-comment">📝 ${order.comment}</div>` : ''}
                         <div class="order-date">🕐 ${date}</div>
